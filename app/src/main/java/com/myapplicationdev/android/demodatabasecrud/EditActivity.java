@@ -24,7 +24,7 @@ public class EditActivity extends AppCompatActivity {
         btnUpdate = (Button)findViewById(R.id. btnUpdate);
         btnDelete =(Button)findViewById(R.id. btnDelete);
 
-        Intent i = getIntent();
+        final Intent i = getIntent();
         data = (Note) i.getSerializableExtra("data");
 
         tvID.setText("ID: " + data.getId());
@@ -37,7 +37,10 @@ public class EditActivity extends AppCompatActivity {
                 data.setNoteContent(etContent.getText().toString());
                 dbh.updateNote(data);
                 dbh.close();
+                i.putExtra("requestCode",9);
+                setResult(RESULT_OK,i);
                 finish();
+
             }
         });
 
@@ -47,6 +50,8 @@ public class EditActivity extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(EditActivity.this);
                 dbh.deleteNote(data.getId());
                 dbh.close();
+                i.putExtra("requestCode",9);
+                setResult(RESULT_OK,i);
                 finish();
             }
         });
